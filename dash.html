@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Dashboard</title>
+    <link rel="stylesheet" href="dashboard-style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    </head>
+    <style>
+        /* --- Root Variables & Basic Reset --- */
+:root {
+    --bg-color-light: #1b005b; /* Light gray background for the dashboard */
+    --card-bg-color: #ffffff; /* White card backgrounds */
+    --border-color-light: #e0e6ed; /* Light border color */
+    --text-color-dark: #343a40; /* Darker text */
+    --text-color-medium: #6c757d; /* Medium gray text */
+    --text-color-light: #adb5bd; /* Lighter gray text */
+    --primary-blue: #3f6ad8; /* Main blue color */
+    --secondary-green: #3ac47d; /* Positive change green */
+    --secondary-red: #d92550; /* Negative change red */
+    --blue-bar-dark: #3f6ad8;
+    --blue-bar-light: #6a95e6;
+    --icon-color-dim: #ced4da; /* Dimmed icon color */
+
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 1.5rem;
+    --spacing-lg: 2rem;
+    --border-radius: 0.25rem;
+    --box-shadow: 0 0.1rem 0.5rem rgba(0, 0, 0, 0.05);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #d92550;
+    color: var(--text-color-dark);
+    background-color: var(--bg-color-light);
+    padding: var(--spacing-lg); /* Padding around the entire dashboard for spacing from viewport edges */
+}
+
+/* --- Utility Classes --- */
+.btn {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border-color-light);
+    background-color: var(--card-bg-color);
+    color: var(--text-color-medium);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s ease-in-out;
+}
+.btn:hover {
+    border-color: var(--text-color-light);
+}
+.btn-icon {
+    padding: 0.5rem 0.75rem;
+}
+.icon-sm {
+    font-size: 1.1rem;
+    color: var(--icon-color-dim);
+}
+.positive {
+    color: var(--secondary-green);
+}
+.negative {
+    color: var(--secondary-red);
+}
+
+/* --- Dashboard Container --- */
+.dashboard-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: var(--spacing-sm) var(--spacing-md); /* Inner padding for the dashboard content */
+}
+
+/* --- Dashboard Header --- */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-lg);
+}
+
+.page-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-color-dark);
+}
+
+.breadcrumb {
+    color: var(--text-color-light);
+    font-weight: 400;
+}
+
+.date-selector {
+    display: flex;
+    gap: var(--spacing-xs);
+}
+
+/* --- Metric Cards Grid --- */
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.metric-card {
+    background-color: var(--card-bg-color);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-md);
+    box-shadow: var(--box-shadow);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.metric-card .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-sm);
+}
+
+.metric-card .card-title {
+    font-size: 0.9rem;
+    color: var(--text-color-medium);
+}
+
+.metric-card .card-value {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: var(--spacing-sm);
+    color: var(--text-color-dark);
+}
+
+.metric-card .card-footer {
+    display: flex;
+    align-items: center;
+    font-size: 0.8rem;
+    color: var(--text-color-medium);
+}
+
+.metric-card .card-footer .change {
+    font-weight: 600;
+    margin-right: 0.5rem;
+}
+
+.metric-card .card-footer .change i {
+    font-size: 0.7rem;
+}
+
+/* --- Charts Section --- */
+.charts-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* Stack on mobile */
+    gap: var(--spacing-md);
+}
+
+.chart-card {
+    background-color: var(--card-bg-color);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-md);
+    box-shadow: var(--box-shadow);
+    min-height: 350px; /* Ensure cards have some height */
+}
+
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-xs);
+    border-bottom: 1px solid var(--border-color-light);
+}
+
+.chart-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-color-dark);
+}
+
+.chart-actions .chart-period {
+    font-size: 0.9rem;
+    color: var(--text-color-medium);
+    cursor: pointer;
+}
+
+.chart-actions .chart-period i {
+    margin-left: 0.5rem;
+    font-size: 0.7rem;
+}
+
+/* Audience Overview Bar Chart Placeholder */
+.audience-overview .chart-content {
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 70px); /* Adjust for header height */
+    justify-content: space-between;
+}
+
+.bar-chart-placeholder {
+    display: flex;
+    flex-grow: 1;
+    margin-top: var(--spacing-sm);
+    padding-left: var(--spacing-sm); /* Space for Y-axis labels */
+    padding-bottom: var(--spacing-sm); /* Space for X-axis labels */
+    position: relative;
+}
+
+.y-axis {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: right;
+    padding-right: var(--spacing-xs);
+    font-size: 0.75rem;
+    color: var(--text-color-light);
+    position: relative;
+    top: -10px; /* Adjust vertical alignment */
+}
+.y-axis span:last-of-type { /* 'Visitors' label */
+    position: absolute;
+    transform: rotate(-90deg);
+    left: -1rem;
+    top: 50%;
+    transform-origin: 0 0;
+    white-space: nowrap;
+}
+
+
+.bars {
+    display: flex;
+    flex-grow: 1;
+    align-items: flex-end; /* Bars start from bottom */
+    border-left: 1px solid var(--border-color-light);
+    border-bottom: 1px solid var(--border-color-light);
+    padding-left: var(--spacing-sm);
+    padding-bottom: var(--spacing-sm); /* Space for month labels */
+    overflow-x: auto; /* Enable horizontal scrolling for many bars */
+    -webkit-overflow-scrolling: touch;
+}
+
+.bar-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    flex-shrink: 0; /* Don't shrink bars */
+    width: 30px; /* Width of each bar group */
+    height: 100%;
+    margin-right: 15px; /* Spacing between bar groups */
+    position: relative;
+}
+
+.bar-group::before, .bar-group::after {
+    content: '';
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    border-radius: 2px 2px 0 0;
+}
+
+.bar-group::before { /* Darker blue bar */
+    height: calc(var(--val1) * 0.7%); /* Scale height based on variable */
+    background-color: var(--blue-bar-dark);
+    z-index: 1;
+}
+
+.bar-group::after { /* Lighter blue bar */
+    height: calc(var(--val2) * 0.7%); /* Scale height based on variable */
+    background-color: var(--blue-bar-light);
+    margin-right: 8px; /* Offset for visual separation */
+    left: 8px; /* Position next to the first bar */
+    z-index: 0;
+}
+
+.bar-group span {
+    position: absolute;
+    bottom: -25px; /* Position month labels below bars */
+    font-size: 0.75rem;
+    color: var(--text-color-medium);
+    white-space: nowrap;
+}
+
+
+.chart-legend {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-lg);
+    font-size: 0.8rem;
+    color: var(--text-color-medium);
+    margin-top: var(--spacing-sm);
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+}
+
+.legend-color {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+.legend-color.blue { background-color: var(--blue-bar-dark); }
+.legend-color.light-blue { background-color: var(--blue-bar-light); }
+
+
+/* Traffic Sources Donut Chart Placeholder */
+.traffic-sources .chart-content.traffic-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-lg);
+    height: calc(100% - 70px);
+    justify-content: center;
+}
+
+.donut-chart-placeholder {
+    width: 150px;
+    height: 150px;
+    background-color: var(--bg-color-light); /* Background for the 'hole' */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    /* Simulate donut chart with a conic gradient, representing 76% */
+    background-image: conic-gradient(
+        var(--primary-blue) 0% 76%, 
+        var(--border-color-light) 76% 100%
+    );
+}
+
+.donut-circle {
+    width: 100px;
+    height: 100px;
+    background-color: var(--card-bg-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary-blue);
+}
+
+.traffic-details {
+    text-align: center;
+    max-width: 250px;
+}
+
+.traffic-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: var(--spacing-xs);
+}
+
+.traffic-description {
+    font-size: 0.9rem;
+    color: var(--text-color-medium);
+    margin-bottom: var(--spacing-md);
+}
+
+.btn-more-details {
+    background-color: transparent;
+    border: 1px solid var(--primary-blue);
+    color: var(--primary-blue);
+    padding: 0.6rem 1.2rem;
+    font-weight: 500;
+}
+.btn-more-details:hover {
+    background-color: var(--primary-blue);
+    color: var(--card-bg-color);
+}
+
+
+/* --- Responsive Adjustments --- */
+@media (min-width: 768px) {
+    .charts-grid {
+        grid-template-columns: 2fr 1fr; /* Two columns, left wider than right */
+    }
+    .traffic-sources .chart-content.traffic-content {
+        flex-direction: column; /* Keep stacked on tablet for narrow right column */
+    }
+}
+
+@media (min-width: 1024px) {
+    .charts-grid {
+        grid-template-columns: 3fr 1fr; /* Adjust ratios for larger screens */
+    }
+    .traffic-sources .chart-content.traffic-content {
+        flex-direction: column; 
+    }
+}
+
+@media (min-width: 1200px) {
+    .traffic-sources .chart-content.traffic-content {
+        flex-direction: row; /* Side-by-side on very wide screens if desired, but image suggests stacked */
+        justify-content: center;
+        align-items: center;
+    }
+    .traffic-details {
+        text-align: left;
+        margin-left: var(--spacing-lg);
+    }
+}
+    </style>
+<body>
+
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h1 class="page-title">Analytics <span class="breadcrumb">/ Dashboard</span></h1>
+            <div class="date-selector">
+                <button class="btn btn-date">Today: Nov 29 <i class="fas fa-chevron-down"></i></button>
+                <button class="btn btn-icon"><i class="fas fa-calendar-alt"></i></button>
+            </div>
+        </div>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="card-header">
+                    <span class="card-title">Sessions</span>
+                    <i class="fas fa-users icon-sm"></i>
+                </div>
+                <div class="card-value">24k</div>
+                <div class="card-footer">
+                    <span class="change positive"><i class="fas fa-arrow-up"></i> 8.5%</span> 
+                    <span class="period">New Sessions Today</span>
+                </div>
+            </div>
+
+            <div class="metric-card">
+                <div class="card-header">
+                    <span class="card-title">Avg Sessions</span>
+                    <i class="fas fa-clock icon-sm"></i>
+                </div>
+                <div class="card-value">00:18</div>
+                <div class="card-footer">
+                    <span class="change positive"><i class="fas fa-arrow-up"></i> 1.5%</span> 
+                    <span class="period">Weekly Avg Sessions</span>
+                </div>
+            </div>
+
+            <div class="metric-card">
+                <div class="card-header">
+                    <span class="card-title">Bounce Rate</span>
+                    <i class="fas fa-chart-line icon-sm"></i>
+                </div>
+                <div class="card-value">$2400</div>
+                <div class="card-footer">
+                    <span class="change negative"><i class="fas fa-arrow-down"></i> 3.5%</span> 
+                    <span class="period">Bounce Rate Weekly</span>
+                </div>
+            </div>
+
+            <div class="metric-card">
+                <div class="card-header">
+                    <span class="card-title">Goal Completions</span>
+                    <i class="fas fa-briefcase icon-sm"></i>
+                </div>
+                <div class="card-value">85000</div>
+                <div class="card-footer">
+                    <span class="change positive"><i class="fas fa-arrow-up"></i> 10.5%</span> 
+                    <span class="period">Completions Weekly</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="charts-grid">
+            <div class="chart-card audience-overview">
+                <div class="chart-header">
+                    <span class="chart-title">Audience Overview</span>
+                    <div class="chart-actions">
+                        <span class="chart-period">This Year <i class="fas fa-chevron-down"></i></span>
+                    </div>
+                </div>
+                <div class="chart-content">
+                    <div class="bar-chart-placeholder">
+                        <div class="y-axis">
+                            <span>120</span>
+                            <span>90</span>
+                            <span>60</span>
+                            <span>30</span>
+                            <span>0</span>
+                            <span>Visitors</span>
+                        </div>
+                        <div class="bars">
+                            <div class="bar-group" style="--val1: 50; --val2: 20;"><span>Jan</span></div>
+                            <div class="bar-group" style="--val1: 70; --val2: 40;"><span>Feb</span></div>
+                            <div class="bar-group" style="--val1: 85; --val2: 55;"><span>Mar</span></div>
+                            <div class="bar-group" style="--val1: 95; --val2: 65;"><span>Apr</span></div>
+                            <div class="bar-group" style="--val1: 90; --val2: 60;"><span>May</span></div>
+                            <div class="bar-group" style="--val1: 80; --val2: 50;"><span>Jun</span></div>
+                            <div class="bar-group" style="--val1: 105; --val2: 75;"><span>Jul</span></div>
+                            <div class="bar-group" style="--val1: 95; --val2: 65;"><span>Aug</span></div>
+                            <div class="bar-group" style="--val1: 110; --val2: 80;"><span>Sep</span></div>
+                            <div class="bar-group" style="--val1: 90; --val2: 60;"><span>Oct</span></div>
+                            <div class="bar-group" style="--val1: 70; --val2: 40;"><span>Nov</span></div>
+                            <div class="bar-group" style="--val1: 60; --val2: 30;"><span>Dec</span></div>
+                        </div>
+                    </div>
+                    <div class="chart-legend">
+                        <span class="legend-item"><span class="legend-color blue"></span> New Visitors</span>
+                        <span class="legend-item"><span class="legend-color light-blue"></span> Unique Visitors</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-card traffic-sources">
+                <div class="chart-header">
+                    <span class="chart-title">Traffic Sources</span>
+                    <div class="chart-actions">
+                        <span class="chart-period">Direct <i class="fas fa-chevron-down"></i></span>
+                    </div>
+                </div>
+                <div class="chart-content traffic-content">
+                    <div class="donut-chart-placeholder">
+                        <div class="donut-circle">
+                            <span class="donut-value">76%</span>
+                        </div>
+                    </div>
+                    <div class="traffic-details">
+                        <h3 class="traffic-title">76% Direct Visitors</h3>
+                        <p class="traffic-description">This is a simple hero unit, a simple jumbotron-style component</p>
+                        <button class="btn btn-more-details">More details</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

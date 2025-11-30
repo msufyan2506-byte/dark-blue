@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tecnologia - Mobile App Development</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="dash.html">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLMD/CDQ6RzY6K4x2N+89gW5zC/y0W/9z95g8z1P3lC/p2lD7t7gL1d4g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary-dark': '#0a1930', // Deep dark blue for background (Used in Service section)
+                        'accent-blue': '#4c86e0', // A lighter blue for accents (Used on dark cards text)
+                        'box-dark': '#152136', // Dark blue used for some service boxes background
+                        'logo-bg': '#e8e9f5', // Light background from the logo section image
+                        'logo-text': '#4e5a95', // Darker blue for text in the logo section
+                        'box-red': '#f50606', // Red color for AI Development box
+                        'card-blue': '#243c5a', // A slightly lighter dark blue for non-red cards
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* BASE STYLES */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        /* Smooth fade for mobile menu */
+        .fade-in {
+            animation: fadeIn 0.2s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        
+
+        /* --- STATS SECTION STYLES (Kept existing but updated to use Tailwind colors) --- */
+        .stats-section{
+            width:100%;
+            padding:70px 20px;
+            /* Updated to use a similar dark gradient effect */
+            background: linear-gradient(90deg, #0a1930, #152136, #4c86e0); 
+            color:#fff;
+            text-align:center;
+        }
+        .stats-container{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            max-width:1100px;
+            margin:auto;
+            flex-wrap:wrap;
+        }
+        .stat-box{
+            width:25%;
+            min-width:200px;
+            padding:20px 10px;
+        }
+        @media(max-width:900px){
+            .stats-container{ justify-content:center; text-align:center; }
+            .stat-box{ width:50%; }
+        }
+        @media(max-width:600px){
+            .stat-box{ width:100%; }
+        }
+
+
+        /* --- HERO & OTHER SECTION STYLES --- */
+        .pc-wrapper {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            width: 100%;
+        }
+
+        .pc-image {
+            width: 100%;
+            max-width: 580px;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+          /* Services Grid custom hover effect */
+        .service-card {
+            transition: all 0.3s ease-in-out;
+            cursor: pointer;
+        }
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+        }
+
+        /* Custom hover for dark cards */
+        .service-card.bg-box-dark:hover {
+            background-color: #1a3258; /* Slightly lighter shade for visual feedback */
+        }
+        
+        /* Custom hover for white cards */
+        .service-card.bg-white:hover {
+            /* Keep the background color the same on hover to make the text/link change stand out */
+            background-color: #f8f8f8; 
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* 💡 NEW HOVER STYLE FOR AI DEVELOPMENT CARD */
+        .service-card.ai-development:hover {
+             background-color: #1a202c !important; /* Deep dark/black on hover */
+             transform: translateY(-5px);
+             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+        /* Style to make text/icon white on hover for this specific card */
+        .service-card.ai-development:hover h3,
+        .service-card.ai-development:hover i,
+        .service-card.ai-development:hover p,
+        .service-card.ai-development:hover a {
+             color: #ffffff !important;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+          /* --- WORKS SECTION (Matching image_731316.jpg) --- */
+        .works-grid-card-light {
+            background-color: #f3f5f8; /* works-bg-light */
+            color: #0a1930; /* primary-dark */
+        }
+        .works-grid-card-dark {
+            background-color: #152136; /* box-dark */
+            color: white;
+        }
+        .works-grid-card-dark .sub-heading {
+            color: #b5d7e0; /* works-text-light */
+        }
+        .works-grid-card-dark .case-study-btn {
+            border-color: #b5d7e0;
+            color: #b5d7e0;
+        }
+        .works-grid-card-light .case-study-btn {
+            border-color: #0a1930;
+            color: #0a1930;
+        }
+        .works-grid-card-dark .case-study-btn:hover {
+            background-color: #b5d7e0;
+            color: #152136;
+        }
+        .works-grid-card-light .case-study-btn:hover {
+            background-color: #0a1930;
+            color: #f3f5f8;
+        }
+
+
+
+
+
+
+
+
+
+        /* --- BLOG SECTION (for image_73039c.jpg) --- */
+        .blog-card-image {
+             /* Ensures images in blog cards cover the top edge of the card */
+            height: 150px;
+            width: 100%;
+            object-fit: cover;
+            border-radius: 0.5rem 0.5rem 0 0; /* Rounded only at the top */
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /* --- NEW FOOTER STYLES ADDED HERE --- */
+        .footer-bg {
+            background-color: #00254b; /* Custom color matching the image for a deep slate blue */
+        }
+
+        /* --- OLD FOOTER STYLES REMOVED --- */
+        /* All old styles for :root, .newsletter-section, .site-footer, .footer-grid, etc., are removed */
+
+
+
+
+
+
+
+
+
+        /* --- WORKS SECTION (Matching image_731316.jpg) --- */
+        .works-grid-card-light {
+            background-color: #f3f5f8; /* works-bg-light */
+            color: #0a1930; /* primary-dark */
+        }
+        .works-grid-card-dark {
+            background-color: #152136; /* box-dark */
+            color: white;
+        }
+        .works-grid-card-dark .sub-heading {
+            color: #b5d7e0; /* works-text-light */
+        }
+        .works-grid-card-dark .case-study-btn {
+            border-color: #b5d7e0;
+            color: #b5d7e0;
+        }
+        .works-grid-card-light .case-study-btn {
+            border-color: #0a1930;
+            color: #0a1930;
+        }
+        .works-grid-card-dark .case-study-btn:hover {
+            background-color: #b5d7e0;
+            color: #152136;
+        }
+        .works-grid-card-light .case-study-btn:hover {
+            background-color: #0a1930;
+            color: #f3f5f8;
+        }
+
+
+
+
+
+
+
+
+
+        /* --- BLOG SECTION (for image_73039c.jpg) --- */
+        .blog-card-image {
+             /* Ensures images in blog cards cover the top edge of the card */
+            height: 150px;
+            width: 100%;
+            object-fit: cover;
+            border-radius: 0.5rem 0.5rem 0 0; /* Rounded only at the top */
+        }
+
+    </style>
+</head>
+<body class="bg-white text-gray-900">
+
+    <nav class="fixed top-0 left-0 w-full bg-white z-50 border-b border-gray-100 shadow-sm h-[72px] flex items-center">
+        <div class="container mx-auto px-4 lg:px-8 flex items-center justify-between h-full">
+            
+            <a href="#" class="flex items-center gap-2 cursor-pointer">
+                <div class="bg-blue-700 p-1.5 rounded">
+                    <div class="w-4 h-4 border-2 border-white rotate-45"></div>
+                </div>
+                <span class="text-xl font-bold text-gray-900 tracking-tight">Tecnologia</span>
+            </a>
+
+            <div class="hidden lg:flex items-center space-x-8">
+                <a href="#" class="text-gray-600 hover:text-blue-700 font-medium transition-colors">Home</a>
+                
+                <div class="group relative cursor-pointer flex items-center gap-1 text-gray-600 hover:text-blue-700 font-medium transition-colors">
+                    <span>Solutions</span>
+                    <svg class="w-4 h-4 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+
+                <div class="group relative cursor-pointer flex items-center gap-1 text-gray-600 hover:text-blue-700 font-medium transition-colors">
+                    <span>Company</span>
+                    <svg class="w-4 h-4 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+
+                <div class="group relative cursor-pointer flex items-center gap-1 text-gray-600 hover:text-blue-700 font-medium transition-colors">
+                    <span>Resources</span>
+                    <svg class="w-4 h-4 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+
+                <a href="#" class="text-gray-600 hover:text-blue-700 font-medium transition-colors">Portfolio</a>
+            </div>
+
+           <a href="dash.html"><div class="hidden lg:flex items-center gap-4">
+                <button class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-blue-700 border border-blue-200 rounded-md hover:bg-blue-50 transition-colors">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+                    Dashboard
+                </button>
+                </a>
+</div>
+
+
+
+<script>
+    const dashboardBtn = document.getElementById("dashboardBtn");
+    const dashboardBox = document.getElementById("dashboardBox");
+    const closeDashboard = document.getElementById("closeDashboard");
+
+    dashboardBtn.addEventListener("click", () => {
+        dashboardBox.classList.toggle("hidden");
+    });
+
+    closeDashboard.addEventListener("click", () => {
+        dashboardBox.classList.add("hidden");
+    });
+</script>
+
+
+                <button class="bg-blue-700 hover:bg-blue-800 text-white font-semibold px-6 py-2.5 rounded-md transition-colors shadow-md">
+                    Contact Us
+                </button>
+            </div>
+
+            <button id="mobile-menu-btn" class="lg:hidden text-gray-700 hover:text-blue-700 focus:outline-none">
+                <svg id="menu-icon" class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                <svg id="close-icon" class="w-7 h-7 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="hidden absolute top-[72px] left-0 w-full bg-white border-b border-gray-200 shadow-lg flex-col p-4 fade-in">
+            <a href="#" class="py-3 px-2 border-b border-gray-50 text-gray-700 font-medium hover:bg-gray-50">Home</a>
+            <a href="#" class="py-3 px-2 border-b border-gray-50 text-gray-700 font-medium hover:bg-gray-50">Portfolio</a>
+            <a href="#about-section" class="py-3 px-2 border-b border-gray-50 text-gray-700 font-medium hover:bg-gray-50">About Us</a>
+
+           <div class="mt-6 flex flex-col gap-3">
+    <a href="dash.html" download class="flex items-center justify-center gap-2 w-full py-3 text-sm font-bold text-blue-700 border border-blue-200 rounded-md bg-blue-50">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+        </svg>
+        Download File
+    </a>
+</div>
+
+                <button class="w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-3 rounded-md shadow-sm transition-colors">
+                    Contact Us
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <section class="relative w-full pt-[72px]">
+        
+        <div class="relative w-full min-h-[85vh] bg-blue-900 overflow-hidden flex items-center">
+            
+            <div class="absolute inset-0 z-0">
+                <img 
+                    src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2670&auto=format&fit=crop" 
+                    alt="Technology Background" 
+                    class="w-full h-full object-cover opacity-30"
+                />
+                <div class="absolute inset-0 bg-gradient-to-r from-blue-950 via-blue-900/90 to-blue-800/60 mix-blend-multiply"></div>
+            </div>
+
+            <div class="relative z-10 container mx-auto px-4 lg:px-8 flex flex-col md:flex-row justify-center items-center h-full pb-10 pt-10">
+                <div class="max-w-3xl md:w-1/2">
+                    <h1 class="text-4xl md:text-5xl lg:text-7xl font-bold text-white leading-tight mb-6 text-center md:text-left">
+                        Mobile app <br class="hidden md:block" />
+                        development for <br class="hidden md:block" />
+                        funded companies.
+                    </h1>
+                    
+                    <p class="text-lg md:text-2xl text-gray-200 mb-8 max-w-2xl font-light text-center md:text-left">
+                        Helping companies succeed through customized software solutions and dedicated engineering teams.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                        <button class="bg-blue-600 hover:bg-blue-500 text-white font-semibold text-lg px-8 py-4 rounded-md transition-all shadow-lg hover:shadow-blue-500/25">
+                            Get in touch
+                        </button>
+                        
+                        <button class="flex items-center justify-center gap-2 px-8 py-4 text-white border border-white/30 rounded-md hover:bg-white/10 transition-colors font-medium">
+                            View More
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="pc-wrapper md:w-1/2">
+                    <img 
+                        src="78.png" 
+                        alt="PC Mockup"
+                        class="pc-image"
+                    />
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    
+
+    <section class="stats-section">
+
+        <div class="stats-top">
+            We Are Proudly Operating On 
+            <span class="bg-white text-[#d40000] font-bold px-4 py-1.5 rounded-full text-lg">26</span>
+            Countries Globally Now
+        </div>
+
+        <div class="stats-container">
+
+            <div class="stat-box">
+                <h1 class="counter text-4xl font-extrabold" data-target="20000">0</h1>
+                <p>SESSION COMPLETED</p>
+            </div>
+
+            <div class="stat-box">
+                <h1 class="counter text-4xl font-extrabold" data-target="35">0</h1>
+                <p>COUNTRY OPERATION</p>
+            </div>
+
+            <div class="stat-box">
+                <h1 class="counter text-4xl font-extrabold" data-target="26">0</h1>
+                <p>EXPERT CONSULTANTS</p>
+            </div>
+
+            <div class="stat-box">
+                <h1 class="counter text-4xl font-extrabold" data-target="100">0</h1>
+                <p>HAPPY CLIENTS</p>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="about-section" class="w-full bg-primary-dark py-16 md:py-24 flex justify-center">
+        <div class="w-full max-w-6xl rounded-xl shadow-2xl overflow-hidden bg-slate-900 mx-4">
+            
+            <div class="flex flex-col md:flex-row-reverse">
+                
+                <div class="md:w-1/2 p-8 md:p-12 lg:p-16 text-white flex flex-col justify-center">
+                    
+                    <p class="text-xs uppercase tracking-widest font-semibold text-accent-blue mb-2">
+                        ABOUT US
+                    </p>
+                    
+                    <h2 class="text-4xl lg:text-5xl font-extrabold leading-tight mb-6">
+                        We're On Mission To Help Business Grow Faster Thanever.
+                    </h2>
+                    
+                    <p class="text-slate-400 text-base mb-8 leading-relaxed">
+                        Commodo elementum, sed imperdiet nunc euismod etiam aliquet viverra enim. Adipiscing nunc condimentum risus id. Aquam mattis magna facilisi fermentum, euismod vitae. Porttitor sit tincidunt dictum facilisi eget orci velit. Nulla laoreet nunc gravida augue aenean sed elementum, in.
+                    </p>
+                    
+                    <button class="w-full md:w-auto px-8 py-3 text-sm font-bold tracking-wider rounded-lg transition-all duration-300
+                                 bg-slate-800 text-white border border-slate-700 hover:bg-accent-blue hover:border-accent-blue hover:shadow-lg hover:shadow-accent-blue/30" style="border: 1px solid rgb(255, 255, 255)">
+                        Learn More
+                    </button>
+                </div>
+
+                <div class="md:w-1/2">
+                    <img 
+                        src="https://images.presentationgo.com/2025/06/programmer-coding-night-office.jpg" 
+                        alt="Two people collaborating on a laptop, showing teamwork and business growth." 
+                        class="object-cover w-full h-full max-h-96 md:max-h-full rounded-t-xl md:rounded-l-xl md:rounded-tr-none"
+                        onerror="this.onerror=null;this.src='https://placehold.co/1200x800/0a1930/ffffff?text=Business+Image'"
+                    >
+                </div>
+            </div>
+        </div>
+    </section>
+
+      <section id="services" class="w-full bg-primary-dark py-16 md:py-24">
+        <div class="container mx-auto px-4 lg:px-8 max-w-6xl">
+            
+            <div class="max-w-2xl mb-12">
+                <p class="text-xs uppercase tracking-widest font-semibold text-accent-blue mb-2">
+                    SERVICES
+                </p>
+                <h2 class="text-4xl font-extrabold text-white">
+                    Our Services
+                </h2>
+                <p class="text-slate-400 mt-4 text-base">
+                    Commodo elementum, sed imperdiet nunc euismod etiam aliquet viverra enim. Adipiscing nunc condimentum risus id. Aquam mattis magna facilisi
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
+
+                <div class="service-card bg-box-dark p-8 lg:p-10 rounded-xl flex flex-col justify-between shadow-lg">
+                    <div>
+                        <div class="flex justify-between items-start mb-6">
+                            <h3 class="text-2xl font-bold text-white leading-snug">
+                                Mobile <br> Development
+                            </h3>
+                            <i class="fas fa-mobile-alt text-4xl text-white opacity-80"></i>
+                        </div>
+                        <p class="text-slate-300 text-sm mb-6">
+                            Commodo elementum, sed imperdiet nunc euismod etiam aliquet viverra enim. Adipiscing nunc condimentum risus id. Aquam mattis magna facilisi
+                        </p>
+                    </div>
+                    <a href="#" class="inline-block text-accent-blue font-semibold text-sm hover:underline">
+                        Discover More
+                    </a>
+                </div>
+
+                <div class="service-card bg-white p-8 lg:p-10 rounded-xl flex flex-col justify-between shadow-lg">
+                    <div>
+                        <div class="flex justify-between items-start mb-6">
+                            <h3 class="text-2xl font-bold text-gray-900 leading-snug">
+                                Back-end <br> Development
+                            </h3>
+                            <i class="fas fa-server text-4xl text-box-dark opacity-80"></i> 
+                        </div>
+                        <p class="text-gray-600 text-sm mb-6">
+                            Commodo elementum, sed imperdiet nunc euismod etiam aliquet viverra enim. Adipiscing nunc condimentum risus id. Aquam mattis magna facilisi
+                        </p>
+                    </div>
+                    <a href="#" class="inline-block text-box-dark font-semibold text-sm hover:underline">
+                        Discover More
+                    </a>
+                </div>
+
+                <div class="service-card bg-box-dark p-8 lg:p-10 rounded-xl flex flex-col justify-between shadow-lg">
+                    <div>
+                        <div class="flex justify-between items-start mb-6">
+                            <h3 class="text-2xl font-bold text-white leading-snug">
+                                Front-end <br> Development
+                            </h3>
+                            <i class="fas fa-th text-4xl text-white opacity-80"></i>
+                        </div>
+                        <p class="text-slate-300 text-sm mb-6">
+                            Commodo elementum, sed imperdiet nunc euismod etiam aliquet viverra enim. Adipiscing nunc condimentum risus id. Aquam mattis magna facilisi
+                        </p>
+                    </div>
+                    <a href="#" class="inline-block text-accent-blue font-semibold text-sm hover:underline">
+                        Discover More
+                    </a>
+                </div>
+
+                <div class="service-card ai-development bg-white p-8 lg:p-10 rounded-xl flex flex-col justify-between shadow-lg">
+                    <div>
+                        <div class="flex justify-between items-start mb-6">
+                            <h3 class="text-2xl font-bold text-gray-900 leading-snug">
+                                AI <br> Development
+                            </h3>
+                            <i class="fas fa-braille text-4xl text-box-dark opacity-80"></i>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-6">
+                            Commodo elementum, sed imperdiet nunc euismod etiam aliquet viverra enim. Adipiscing nunc condimentum risus id. Aquam mattis magna facilisi
+                        </p>
+                    </div>
+                    <a href="#" class="inline-block text-box-dark font-semibold text-sm hover:underline">
+                        Discover More
+                    </a>
+                </div>
+
+                <div class="service-card bg-box-dark p-8 lg:p-10 rounded-xl flex flex-col justify-between shadow-lg">
+                    <div>
+                        <div class="flex justify-between items-start mb-6">
+                            <h3 class="text-2xl font-bold text-white leading-snug">
+                                Computer <br> Development
+                            </h3>
+                            <i class="fas fa-cube text-4xl text-white opacity-80"></i>
+                        </div>
+                        <p class="text-slate-300 text-sm mb-6">
+                            Commodo elementum, sed imperdiet nunc euismod etiam aliquet viverra enim. Adipiscing nunc condimentum risus id. Aquam mattis magna facilisi
+                        </p>
+                    </div>
+                    <a href="#" class="inline-block text-accent-blue font-semibold text-sm hover:underline">
+                        Discover More
+                    </a>
+                </div>
+
+                <div class="service-card bg-white p-8 lg:p-10 rounded-xl flex flex-col justify-between shadow-lg">
+                    <div>
+                        <div class="flex justify-between items-start mb-6">
+                            <h3 class="text-2xl font-bold text-gray-900 leading-snug">
+                                Team <br> Augmentation
+                            </h3>
+                            <i class="fas fa-users text-4xl text-box-dark opacity-80"></i> 
+                        </div>
+                        <p class="text-gray-600 text-sm mb-6">
+                            Commodo elementum, sed imperdiet nunc euismod etiam aliquet viverra enim. Adipiscing nunc condimentum risus id. Aquam mattis magna facilisi
+                        </p>
+                    </div>
+                    <a href="#" class="inline-block text-box-dark font-semibold text-sm hover:underline">
+                        Discover More
+                    </a>
+                </div>
+
+            </div>
+            </div>
+    </section>
+
+
+
+
+
+<section id="works" class="w-full bg-primary-dark py-16 md:py-24">
+        <div class="container mx-auto px-4 lg:px-8 max-w-6xl">
+            
+            <div class="flex justify-between items-end mb-12">
+                <div class="max-w-xl">
+                    <p class="text-xs uppercase tracking-widest font-semibold text-accent-blue mb-2">
+                        WORKS
+                    </p>
+                    <h2 class="text-4xl font-extrabold text-white mb-2">
+                        Our Works
+                    </h2>
+                    <p class="text-slate-400 text-base">
+                        Commodo elementum, sed imperdiet nunc euismod etiam aliquet viverra enim. Adipiscing nunc condimentum risus id. Aquam mattis magna facilisi
+                    </p>
+                </div>
+                <button class="hidden sm:block bg-box-red hover:bg-red-700 text-white font-semibold px-6 py-2.5 rounded-md transition-colors shadow-md text-sm">
+                    All Our Work
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+                <div class="w-full h-80">
+                    <img src="https://itcraftapps.com/wp-content/uploads/2023/11/image-1024x576.png.webp" alt="Phone displaying code" class="object-cover w-full h-full rounded-xl shadow-lg" />
+                </div>
+                <div class="works-grid-card-dark p-8 rounded-xl flex flex-col justify-center shadow-lg">
+                    <p class="sub-heading text-xs uppercase tracking-widest font-semibold mb-2">DELIVERY SERVICE - ECOMMERCE</p>
+                    <h3 class="text-3xl font-bold leading-snug mb-4">
+                        We have developed an Android app for fast grocery delivery
+                    </h3>
+                    <p class="text-sm mb-6 opacity-80">
+                        Commodo elementum sed imperdiet nunc euismod etiam aliquet viverra enim. Adipiscing nunc condimentum risus id. Aquam mattis magna facilisi
+                    </p>
+                    <button class="case-study-btn w-auto px-6 py-2.5 text-sm font-semibold border rounded-md transition-all self-start">
+                        See Case Study
+                    </button>
+                </div>
+
+                <div class="works-grid-card-light p-8 rounded-xl flex flex-col justify-center shadow-lg order-2 lg:order-3">
+                    <p class="text-xs uppercase tracking-widest font-semibold text-accent-blue mb-2">AI - DEVELOPMENT</p>
+                    <h3 class="text-3xl font-bold leading-snug mb-4">
+                        We have developed an audio platform with smart advertising
+                    </h3>
+                    <p class="text-sm mb-6 text-gray-700">
+                        Commodo elementum sed imperdiet nunc euismod etiam aliquet viverra enim. Adipiscing nunc condimentum risus id. Aquam mattis
+                    </p>
+                    <button class="case-study-btn w-auto px-6 py-2.5 text-sm font-semibold border rounded-md transition-all self-start">
+                        See Case Study
+                    </button>
+                </div>
+                <div class="w-full h-80 order-1 lg:order-4">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPQHhvSPjsmemQG8GXmkrtwsXdGDR7g4SleA&s" alt="Monitor displaying code and hand pointing" class="object-cover w-full h-full rounded-xl shadow-lg" />
+                </div>
+
+                <div class="w-full h-80 order-3 lg:order-5">
+                    <img src="https://www.solutionsplayer.com/wp-content/uploads/2022/01/top-high-paying-Islamabad-software-house-jobs-800x550.jpg" alt="Person working on laptop at desk" class="object-cover w-full h-full rounded-xl shadow-lg" />
+                </div>
+                <div class="works-grid-card-dark p-8 rounded-xl flex flex-col justify-center shadow-lg order-4 lg:order-6">
+                    <p class="sub-heading text-xs uppercase tracking-widest font-semibold mb-2">DELIVERY SERVICE - ECOMMERCE</p>
+                    <h3 class="text-3xl font-bold leading-snug mb-4">
+                        We have developed an Android app for fast grocery delivery
+                    </h3>
+                    <p class="text-sm mb-6 opacity-80">
+                        Commodo elementum sed imperdiet nunc euismod etiam aliquet viverra enim. Adipiscing nunc condimentum risus id. Aquam mattis
+                    </p>
+                    <button class="case-study-btn w-auto px-6 py-2.5 text-sm font-semibold border rounded-md transition-all self-start">
+                        See Case Study
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+
+   <section class="w-full bg-primary-dark pt-16 md:pt-24 flex justify-center">
+        <div class="container mx-auto px-4 lg:px-8 max-w-6xl">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 pb-16">
+                
+                <div class="lg:col-span-1 space-y-4">
+                    <div class="w-full h-72 rounded-xl overflow-hidden shadow-lg">
+                        <img 
+                            src="https://itcraftapps.com/wp-content/uploads/2023/11/image-2-1024x562.png.webp" 
+                            alt="Person in VR headset" 
+                            class="object-cover w-full h-full"
+                        >
+                    </div>
+                    <div class="w-full h-64 rounded-xl overflow-hidden shadow-lg">
+                        <img 
+                            src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8c29mdHdhcmUlMjBjb21wYW55fGVufDB8fDB8fHww" 
+                            alt="Two people collaborating on a tablet" 
+                            class="object-cover w-full h-full"
+                        >
+                    </div>
+                </div>
+
+                <div class="lg:col-span-2 flex flex-col justify-center lg:pl-16">
+                    <p class="text-xs uppercase tracking-widest font-semibold text-accent-blue mb-2">
+                        JOIN US
+                    </p>
+                    <h2 class="text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-6">
+                        Several Things Define Us As a Company
+                    </h2>
+                    <p class="text-slate-400 text-base mb-8 leading-relaxed max-w-lg">
+                        Commodo elementum, sed imperdiet nunc euismod etiam aliquet viverra enim. Adipiscing nunc condimentum risus id. Aquam mattis magna facilisi fermentum, euismod vitae.
+                    </p>
+                    <button class="w-full md:w-auto px-8 py-3 text-sm font-bold tracking-wider rounded-lg transition-all duration-300
+                                 bg-blue-600 text-white border border-blue-600 hover:bg-blue-700 hover:shadow-lg self-start">
+                        Join Us Now
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="w-full bg-primary-dark py-16 md:py-24">
+        <div class="container mx-auto px-4 lg:px-8 max-w-6xl">
+            
+            <div class="flex justify-between items-end mb-12">
+                <div class="max-w-xl">
+                    <p class="text-xs uppercase tracking-widest font-semibold text-accent-blue mb-2">
+                        BLOG
+                    </p>
+                    <h2 class="text-4xl font-extrabold text-white mb-2">
+                        Latest Blog & News
+                    </h2>
+                    <p class="text-slate-400 text-base">
+                        Commodo elementum, sed imperdiet nunc euismod etiam aliquet viverra enim. Adipiscing nunc condimentum risus id. Aquam mattis magna facilisi
+                    </p>
+                </div>
+                <button class="hidden sm:block bg-box-red hover:bg-red-700 text-white font-semibold px-6 py-2.5 rounded-md transition-colors shadow-md text-sm">
+                    View All Blog
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+                <div class="bg-box-dark rounded-xl shadow-lg overflow-hidden">
+                    <img class="blog-card-image" src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=2670&auto=format&fit=crop" alt="Office workers collaborating on a project">
+                    <div class="p-4">
+                        <h4 class="text-lg font-bold text-white mb-2 hover:text-accent-blue transition-colors cursor-pointer">
+                            Purus porta feugiatis dia sed ipsum enim gravida lectus.
+                        </h4>
+                        <p class="text-xs text-slate-400">
+                            September 10, 2022 No Comments
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-box-dark rounded-xl shadow-lg overflow-hidden">
+                    <img class="blog-card-image" src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?q=80&w=2670&auto=format&fit=crop" alt="Person working on a laptop">
+                    <div class="p-4">
+                        <h4 class="text-lg font-bold text-white mb-2 hover:text-accent-blue transition-colors cursor-pointer">
+                            Purus porta feugiatis dia sed ipsum enim gravida lectus.
+                        </h4>
+                        <p class="text-xs text-slate-400">
+                            September 10, 2022 No Comments
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-box-dark rounded-xl shadow-lg overflow-hidden">
+                    <img class="blog-card-image" src="https://itcraftapps.com/wp-content/uploads/2023/11/image-2-1024x562.png.webp" alt="Team collaborating in front of a screen">
+                    <div class="p-4">
+                        <h4 class="text-lg font-bold text-white mb-2 hover:text-accent-blue transition-colors cursor-pointer">
+                            Purus porta feugiatis dia sed ipsum enim gravida lectus.
+                        </h4>
+                        <p class="text-xs text-slate-400">
+                            September 10, 2022 No Comments
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-box-dark rounded-xl shadow-lg overflow-hidden">
+                    <img class="blog-card-image" src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8c29mdHdhcmUlMjBjb21wYW55fGVufDB8fDB8fHww" alt="Developer working at night">
+                    <div class="p-4">
+                        <h4 class="text-lg font-bold text-white mb-2 hover:text-accent-blue transition-colors cursor-pointer">
+                            Purus porta feugiatis dia sed ipsum enim gravida lectus.
+                        </h4>
+                        <p class="text-xs text-slate-400">
+                            September 10, 2022 No Comments
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+
+
+
+    <footer class="footer-bg text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-6">
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pb-8 border-b border-slate-700">
+                
+                <div class="space-y-4">
+                    <h5 class="text-lg font-bold uppercase tracking-wider text-white">Company Name</h5>
+                    <p class="text-sm text-gray-300 leading-relaxed">
+                        Here you can use rows and columns to organize your footer content. Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    </p>
+                </div>
+                
+                <div>
+                    <h5 class="text-lg font-bold uppercase tracking-wider text-white mb-4">Products</h5>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="text-gray-300 hover:text-white transition duration-200">MDBootstrap</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition duration-200">MDWordPress</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition duration-200">BrandFlow</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition duration-200">Bootstrap Angular</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h5 class="text-lg font-bold uppercase tracking-wider text-white mb-4">Useful Links</h5>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="text-gray-300 hover:text-white transition duration-200">Your Account</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition duration-200">Become an Affiliate</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition duration-200">Shipping Rates</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition duration-200">Help</a></li>
+                    </ul>
+                </div>
+                
+                <div class="space-y-4">
+                    <h5 class="text-lg font-bold uppercase tracking-wider text-white mb-4">Contact</h5>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 mr-3 mt-1 shrink-0 text-gray-400">
+                                <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                                <polyline points="9 22 9 12 15 12 15 22"/>
+                            </svg>
+                            <span class="text-gray-300">New York, NY 10012, US</span>
+                        </li>
+                        <li class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 mr-3 shrink-0 text-gray-400">
+                                <rect width="20" height="16" x="2" y="4" rx="2"/>
+                                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                            </svg>
+                            <a href="mailto:info@gmail.com" class="text-gray-300 hover:text-white transition duration-200">info@gmail.com</a>
+                        </li>
+                        <li class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 mr-3 shrink-0 text-gray-400">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 4.08 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                            </svg>
+                            <span class="text-gray-300">+ 01 234 567 88</span>
+                        </li>
+                        <li class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 mr-3 shrink-0 text-gray-400">
+                                <path d="M6 9V2h12v7"/>
+                                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+                                <path d="M6 14h12v8H6z"/>
+                            </svg>
+                            <span class="text-gray-300">+ 01 234 567 89</span>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="flex flex-col md:flex-row justify-between items-center pt-4">
+                
+                <p class="text-sm text-gray-400 mb-4 md:mb-0">
+                    &copy; 2020 Copyright: <span class="font-semibold text-white">MDBootstrap.com</span>
+                </p>
+                
+                <div class="flex space-x-3">
+                    <a href="#" aria-label="Facebook" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-700 text-white transition duration-300 hover:bg-slate-600">
+                        <i class="fab fa-facebook-f text-sm"></i>
+                    </a>
+                    <a href="#" aria-label="Twitter" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-700 text-white transition duration-300 hover:bg-slate-600">
+                        <i class="fab fa-twitter text-sm"></i>
+                    </a>
+                    <a href="#" aria-label="Google Plus" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-700 text-white transition duration-300 hover:bg-slate-600">
+                        <i class="fab fa-google-plus-g text-sm"></i>
+                    </a>
+                    <a href="#" aria-label="LinkedIn" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-700 text-white transition duration-300 hover:bg-slate-600">
+                        <i class="fab fa-linkedin-in text-sm"></i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </footer>
+    <script>
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        const closeIcon = document.getElementById('close-icon')
+        
+        // Existing JavaScript for mobile menu (kept for functionality)
+        if (btn) {
+            btn.addEventListener('click', () => {
+                const isMenuOpen = menu.classList.toggle('hidden');
+                menuIcon.classList.toggle('hidden', !isMenuOpen);
+                closeIcon.classList.toggle('hidden', isMenuOpen);
+            });
+        }
+
+
+        // Stats Counter Logic (Kept for functionality)
+        const counters = document.querySelectorAll('.counter');
+        const speed = 200; // The lower the number, the faster the counter
+
+        const runCounters = () => {
+            counters.forEach(counter => {
+                const updateCount = () => {
+                    const target = +counter.getAttribute('data-target');
+                    const count = +counter.innerText;
+
+                    // Calculate increment step
+                    const inc = target / speed;
+
+                    // Check if target is reached
+                    if (count < target) {
+                        // Add increment until it reaches the target
+                        counter.innerText = Math.ceil(count + inc);
+                        setTimeout(updateCount, 1);
+                    } else {
+                        counter.innerText = target;
+                    }
+                };
+                updateCount();
+            });
+        };
+
+        // Simple Intersection Observer to start counting when visible
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.5 // Start when 50% of the section is visible
+        };
+
+        const statsSection = document.querySelector('.stats-section');
+        if (statsSection) {
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        runCounters();
+                        observer.unobserve(entry.target); // Stop observing once counting starts
+                    }
+                });
+            }, observerOptions);
+
+            observer.observe(statsSection);
+        }
+        
+    </script>
+</body>
+</html>
