@@ -264,9 +264,14 @@
             object-fit: cover;
             border-radius: 0.5rem 0.5rem 0 0; /* Rounded only at the top */
         }
+        html {
+  scroll-behavior: smooth;
+}
+
 
     </style>
 </head>
+
 <body class="bg-white text-gray-900">
 
     <nav class="fixed top-0 left-0 w-full bg-white z-50 border-b border-gray-100 shadow-sm h-[72px] flex items-center">
@@ -282,22 +287,25 @@
             <div class="hidden lg:flex items-center space-x-8">
                 <a href="#" class="text-gray-600 hover:text-blue-700 font-medium transition-colors">Home</a>
                 
-                <div class="group relative cursor-pointer flex items-center gap-1 text-gray-600 hover:text-blue-700 font-medium transition-colors">
-                    <span>Solutions</span>
+              <a href="#about-section"><div class="group relative cursor-pointer flex items-center gap-1 text-gray-600 hover:text-blue-700 font-medium transition-colors">
+                    <span>About us</span>
                     <svg class="w-4 h-4 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                 </div>
+                </a> 
 
-                <div class="group relative cursor-pointer flex items-center gap-1 text-gray-600 hover:text-blue-700 font-medium transition-colors">
-                    <span>Company</span>
+                <a href="#services"><div class="group relative cursor-pointer flex items-center gap-1 text-gray-600 hover:text-blue-700 font-medium transition-colors">
+                    <span>Services</span>
                     <svg class="w-4 h-4 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                 </div>
+                </a> 
 
-                <div class="group relative cursor-pointer flex items-center gap-1 text-gray-600 hover:text-blue-700 font-medium transition-colors">
-                    <span>Resources</span>
+                <a href="#works"> <div class="group relative cursor-pointer flex items-center gap-1 text-gray-600 hover:text-blue-700 font-medium transition-colors">
+                    <span>Our Works</span>
                     <svg class="w-4 h-4 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                 </div>
+                </a> 
 
-                <a href="#" class="text-gray-600 hover:text-blue-700 font-medium transition-colors">Portfolio</a>
+                <a href="#wor" class="text-gray-600 hover:text-blue-700 font-medium transition-colors">Contact</a>
             </div>
 
            <a href="dash.html"><div class="hidden lg:flex items-center gap-4">
@@ -339,7 +347,7 @@
         <div id="mobile-menu" class="hidden absolute top-[72px] left-0 w-full bg-white border-b border-gray-200 shadow-lg flex-col p-4 fade-in">
             <a href="#" class="py-3 px-2 border-b border-gray-50 text-gray-700 font-medium hover:bg-gray-50">Home</a>
             <a href="#" class="py-3 px-2 border-b border-gray-50 text-gray-700 font-medium hover:bg-gray-50">Portfolio</a>
-            <a href="#about-section" class="py-3 px-2 border-b border-gray-50 text-gray-700 font-medium hover:bg-gray-50">About Us</a>
+            <a href="" class="py-3 px-2 border-b border-gray-50 text-gray-700 font-medium hover:bg-gray-50">About Us</a>
 
            <div class="mt-6 flex flex-col gap-3">
     <a href="dash.html" download class="flex items-center justify-center gap-2 w-full py-3 text-sm font-bold text-blue-700 border border-blue-200 rounded-md bg-blue-50">
@@ -721,6 +729,8 @@
         </div>
     </section>
 
+
+    
     <section class="w-full bg-primary-dark py-16 md:py-24">
         <div class="container mx-auto px-4 lg:px-8 max-w-6xl">
             
@@ -799,7 +809,7 @@
 
 
 
-
+<section id="wor">
     <footer class="footer-bg text-white shadow-lg">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-6">
             
@@ -892,6 +902,7 @@
 
         </div>
     </footer>
+    </section>
     <script>
         const btn = document.getElementById('mobile-menu-btn');
         const menu = document.getElementById('mobile-menu');
